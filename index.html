@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva - Matemáticas 1ro Básico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4f46e5', // Indigo 600
+                        surface: '#ffffff',
+                        background: '#f8fafc', // Slate 50
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom animations for tab switching */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hide scrollbar for mobile navigation */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-background text-slate-800 antialiased min-h-screen flex flex-col md:flex-row">
+
+    <!-- Mobile Header & Navigation -->
+    <header class="md:hidden bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
+        <div class="p-4">
+            <h1 class="text-xl font-bold text-slate-800">Matemáticas <span class="text-primary">1ro Básico</span></h1>
+            <p class="text-xs text-slate-500 mt-1">Guía de preparación paso a paso</p>
+        </div>
+        <nav class="flex overflow-x-auto no-scrollbar gap-2 px-4 pb-3">
+            <button onclick="switchTab('medidas')" id="nav-mobile-medidas" class="nav-btn-mobile whitespace-nowrap px-4 py-2 rounded-full bg-primary text-white text-sm font-medium transition-colors">Medidas</button>
+            <button onclick="switchTab('poligonos')" id="nav-mobile-poligonos" class="nav-btn-mobile whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-medium transition-colors">Polígonos</button>
+            <button onclick="switchTab('pitagoras')" id="nav-mobile-pitagoras" class="nav-btn-mobile whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-medium transition-colors">Pitágoras</button>
+            <button onclick="switchTab('estadistica')" id="nav-mobile-estadistica" class="nav-btn-mobile whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-medium transition-colors">Estadística</button>
+            <button onclick="switchTab('probabilidad')" id="nav-mobile-probabilidad" class="nav-btn-mobile whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-medium transition-colors">Probabilidad</button>
+            <button onclick="switchTab('videos')" id="nav-mobile-videos" class="nav-btn-mobile whitespace-nowrap px-4 py-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-medium transition-colors">Videos de apoyo</button>
+        </nav>
+    </header>
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden md:flex flex-col w-72 bg-white border-r border-slate-200 fixed h-full z-10 shadow-sm">
+        <div class="p-6 border-b border-slate-100">
+            <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Matemáticas</h1>
+            <p class="text-sm text-slate-500 font-medium mt-1">Guía 1ro Básico</p>
+        </div>
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <button onclick="switchTab('medidas')" id="nav-desk-medidas" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 bg-indigo-50 text-primary rounded-xl font-medium transition-colors text-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+                Conversiones
+            </button>
+            <button onclick="switchTab('poligonos')" id="nav-desk-poligonos" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4.9V17L12 22l-9-4.9V6.9z"/></svg>
+                Polígonos
+            </button>
+            <button onclick="switchTab('pitagoras')" id="nav-desk-pitagoras" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22L21 22 21 4z"/></svg>
+                Teorema de Pitágoras
+            </button>
+            <button onclick="switchTab('estadistica')" id="nav-desk-estadistica" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-4"/></svg>
+                Estadística
+            </button>
+            <button onclick="switchTab('probabilidad')" id="nav-desk-probabilidad" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="15" r="1.5"/></svg>
+                Probabilidad
+            </button>
+            <button onclick="switchTab('videos')" id="nav-desk-videos" class="nav-btn-desk w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left mt-4 border border-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                Videos de apoyo
+            </button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-72 p-4 md:p-10 lg:p-14 pb-24 max-w-5xl mx-auto w-full">
+        
+        <div id="medidas" class="tab-content active">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Medidas de Longitud y Tiempo</h2>
+                <p class="text-slate-500 mt-2">Aprende a convertir unidades siguiendo estos sencillos pasos.</p>
+            </header>
+
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 mb-6">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <span class="bg-indigo-100 text-primary w-8 h-8 rounded-lg flex items-center justify-center">1</span>
+                    Paso a paso: ¿Cómo convertir?
+                </h3>
+                <div class="space-y-4 text-slate-600 leading-relaxed">
+                    <p>Las conversiones de medidas se tratan de <strong>multiplicar</strong> o <strong>dividir</strong> dependiendo de si pasas a una unidad más pequeña o más grande.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <h4 class="font-semibold text-slate-800 mb-2">📏 Longitud (Metros y Centímetros)</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>1 metro = 100 centímetros</strong>.</li>
+                                <li>De metros a centímetros: <strong>multiplica por 100</strong>.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <h4 class="font-semibold text-slate-800 mb-2">⏱️ Tiempo</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li>Días a horas: <strong>multiplica por 24</strong>.</li>
+                                <li>Horas a minutos: <strong>multiplica por 60</strong>.</li>
+                                <li>Minutos a segundos: <strong>multiplica por 60</strong>.</li>
+                                <li>Segundos a minutos: <strong>divide entre 60</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo Desglosado -->
+            <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 mb-6">
+                <h4 class="text-indigo-900 font-bold mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                    Ejemplo Desglosado
+                </h4>
+                <div class="space-y-3 text-indigo-800 text-sm md:text-base">
+                    <p><strong>Problema:</strong> Convertir 2 días a minutos.</p>
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li><strong>Paso 1 (Días a horas):</strong> Sabemos que 1 día tiene 24 horas. Multiplicamos <code class="bg-white px-1 rounded">2 x 24 = 48 horas</code>.</li>
+                        <li><strong>Paso 2 (Horas a minutos):</strong> Sabemos que 1 hora tiene 60 minutos. Tomamos nuestras 48 horas y multiplicamos <code class="bg-white px-1 rounded">48 x 60 = 2880</code>.</li>
+                        <li><strong>Resultado Final:</strong> 2 días son equivalentes a <strong>2880 minutos</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Interactive Practice -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 border-t-4 border-t-primary">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m18 5-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2Z"/><path d="M8 18h1"/><path d="M18 13v-5"/><path d="M12 18h1"/><path d="M16 18h1"/></svg>
+                    Práctica Didáctica
+                </h3>
+                
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl flex flex-col gap-2">
+                            <label class="text-slate-700 font-medium">1) 5 metros a centímetros =</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="m_q1" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="0">
+                                <span class="text-slate-500 text-sm">cm</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl flex flex-col gap-2">
+                            <label class="text-slate-700 font-medium">2) 3 días a segundos =</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="m_q2" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="0">
+                                <span class="text-slate-500 text-sm">seg</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl flex flex-col gap-2">
+                            <label class="text-slate-700 font-medium">3) 3 horas a minutos =</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="m_q3" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="0">
+                                <span class="text-slate-500 text-sm">min</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl flex flex-col gap-2">
+                            <label class="text-slate-700 font-medium">4) 120 segundos a minutos =</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="m_q4" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="0">
+                                <span class="text-slate-500 text-sm">min</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl flex flex-col gap-2 md:col-span-2">
+                            <label class="text-slate-700 font-medium">5) 3 días a horas =</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="m_q5" class="border border-slate-300 rounded-lg px-3 py-2 w-full md:w-1/2 focus:outline-none focus:border-primary" placeholder="0">
+                                <span class="text-slate-500 text-sm">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="checkMedidas()" class="mt-4 bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors w-full sm:w-auto shadow-sm">
+                        Verificar mis respuestas
+                    </button>
+                    
+                    <div id="m_feedback" class="hidden p-4 rounded-xl mt-4 text-sm font-medium"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="poligonos" class="tab-content">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Polígonos y Figuras</h2>
+                <p class="text-slate-500 mt-2">Identifica las figuras geométricas por su número de lados.</p>
+            </header>
+
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 mb-6">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <span class="bg-indigo-100 text-primary w-8 h-8 rounded-lg flex items-center justify-center">1</span>
+                    Paso a paso: Clasificación
+                </h3>
+                <div class="space-y-4 text-slate-600">
+                    <p>Para nombrar un polígono, el único paso que debes hacer es <strong>contar cuántas líneas rectas (lados) forman el borde</strong> de la figura.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-800">3 Lados</div>
+                                <div class="text-sm text-slate-500">Triángulo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-800">4 Lados</div>
+                                <div class="text-sm text-slate-500">Cuadrilátero (o Cuadrado)</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 9.5 6.5 21h11L21 9.5 12 3Z"/></svg>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-800">5 Lados</div>
+                                <div class="text-sm text-slate-500">Pentágono</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/></svg>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-800">6 Lados</div>
+                                <div class="text-sm text-slate-500">Hexágono</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo Desglosado -->
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-6 mb-6">
+                <h4 class="text-emerald-900 font-bold mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                    Ejemplo Desglosado
+                </h4>
+                <div class="space-y-3 text-emerald-800 text-sm md:text-base flex flex-col md:flex-row items-center gap-6">
+                    <div class="flex-1">
+                        <p><strong>Problema:</strong> ¿Cómo se llama una figura plana que tiene la forma de una celda de un panal de abejas?</p>
+                        <ol class="list-decimal pl-5 space-y-2 mt-2">
+                            <li><strong>Paso 1:</strong> Ubicamos un punto de inicio en el borde superior de la figura.</li>
+                            <li><strong>Paso 2:</strong> Contamos cada línea recta que forma el borde exterior: 1, 2, 3, 4, 5, 6.</li>
+                            <li><strong>Paso 3:</strong> Consultamos nuestras tarjetas de arriba. Una figura de 6 lados se llama <strong>Hexágono</strong>.</li>
+                        </ol>
+                    </div>
+                    <div class="w-24 h-24 flex items-center justify-center shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Practice -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 border-t-4 border-t-primary">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m18 5-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2Z"/><path d="M8 18h1"/><path d="M18 13v-5"/><path d="M12 18h1"/><path d="M16 18h1"/></svg>
+                    Práctica Didáctica
+                </h3>
+                
+                <div class="space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 bg-slate-50 rounded-xl">
+                        <label class="text-slate-700 font-medium">1) ¿Polígono regular que tiene 6 lados?</label>
+                        <select id="p_q1" class="border border-slate-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-primary min-w-[200px]">
+                            <option value="">Selecciona...</option>
+                            <option value="triangulo">Triángulo</option>
+                            <option value="cuadrilatero">Cuadrilátero</option>
+                            <option value="hexagono">Hexágono</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 bg-slate-50 rounded-xl">
+                        <label class="text-slate-700 font-medium">2) ¿Polígono regular que tiene 3 lados?</label>
+                        <select id="p_q2" class="border border-slate-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-primary min-w-[200px]">
+                            <option value="">Selecciona...</option>
+                            <option value="triangulo">Triángulo</option>
+                            <option value="cuadrilatero">Cuadrilátero</option>
+                            <option value="hexagono">Hexágono</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 bg-slate-50 rounded-xl">
+                        <label class="text-slate-700 font-medium">3) ¿Polígono regular que tiene 4 lados?</label>
+                        <select id="p_q3" class="border border-slate-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-primary min-w-[200px]">
+                            <option value="">Selecciona...</option>
+                            <option value="triangulo">Triángulo</option>
+                            <option value="cuadrilatero">Cuadrilátero</option>
+                            <option value="hexagono">Hexágono</option>
+                        </select>
+                    </div>
+                    
+                    <button onclick="checkPoligonos()" class="mt-4 bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors w-full sm:w-auto shadow-sm">
+                        Verificar mis respuestas
+                    </button>
+                    
+                    <div id="p_feedback" class="hidden p-4 rounded-xl mt-4 text-sm font-medium"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pitagoras" class="tab-content">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Teorema de Pitágoras</h2>
+                <p class="text-slate-500 mt-2">Descubre cómo encontrar el lado más largo de un triángulo rectángulo.</p>
+            </header>
+
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 mb-6">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <span class="bg-indigo-100 text-primary w-8 h-8 rounded-lg flex items-center justify-center">1</span>
+                    Paso a paso: La Fórmula
+                </h3>
+                <div class="space-y-4 text-slate-600">
+                    <p>En un triángulo con una esquina en forma de "L", los dos lados que forman la "L" se llaman <strong>catetos</strong>. El lado largo en diagonal se llama <strong>hipotenusa</strong>.</p>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center font-mono text-lg text-slate-800">
+                        Hipotenusa² = Cateto² + Cateto²
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo Desglosado -->
+            <div class="bg-amber-50 border border-amber-100 rounded-2xl p-6 mb-6">
+                <h4 class="text-amber-900 font-bold mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                    Ejemplo Desglosado
+                </h4>
+                <div class="space-y-3 text-amber-900 text-sm md:text-base">
+                    <p><strong>Problema:</strong> Los catetos de un triángulo miden <strong>3 cm</strong> y <strong>4 cm</strong>. ¿Cuánto mide la hipotenusa?</p>
+                    <ol class="list-decimal pl-5 space-y-2 mt-2 bg-white/50 p-4 rounded-xl border border-amber-100">
+                        <li><strong>Elevar al cuadrado el 1er cateto:</strong> <code class="font-bold">3 × 3 = 9</code></li>
+                        <li><strong>Elevar al cuadrado el 2do cateto:</strong> <code class="font-bold">4 × 4 = 16</code></li>
+                        <li><strong>Sumar ambos resultados:</strong> <code class="font-bold">9 + 16 = 25</code></li>
+                        <li><strong>Sacar la raíz cuadrada a la suma:</strong> La raíz cuadrada de 25 es el número que multiplicado por sí mismo da 25. En este caso es <code class="font-bold">5 (porque 5×5=25)</code>.</li>
+                        <li class="pt-2 border-t border-amber-200 mt-2"><strong>Respuesta final:</strong> La hipotenusa mide <strong>5 cm</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Interactive Practice -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 border-t-4 border-t-primary">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m18 5-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2Z"/><path d="M8 18h1"/><path d="M18 13v-5"/><path d="M12 18h1"/><path d="M16 18h1"/></svg>
+                    Práctica Didáctica
+                </h3>
+                
+                <div class="space-y-6">
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+                        <p class="text-slate-700 font-medium mb-3">1) Los catetos miden <strong>6 cm</strong> y <strong>8 cm</strong>. Sigue los pasos para calcular la hipotenusa.</p>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="pit_q1" class="border border-slate-300 rounded-lg px-3 py-2 w-24 focus:outline-none focus:border-primary" placeholder="Ej: 5">
+                            <span class="text-slate-500 font-medium">cm</span>
+                        </div>
+                    </div>
+
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+                        <p class="text-slate-700 font-medium mb-3">2) Los catetos miden <strong>5 cm</strong> y <strong>12 cm</strong>. (Pista: 5²=25 y 12²=144).</p>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="pit_q2" class="border border-slate-300 rounded-lg px-3 py-2 w-24 focus:outline-none focus:border-primary" placeholder="Ej: 5">
+                            <span class="text-slate-500 font-medium">cm</span>
+                        </div>
+                    </div>
+                
+                    <button onclick="checkPitagoras()" class="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors w-full sm:w-auto shadow-sm">
+                        Verificar mis respuestas
+                    </button>
+                    
+                    <div id="pit_feedback" class="hidden p-4 rounded-xl mt-4 text-sm font-medium"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="estadistica" class="tab-content">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Estadística Básica</h2>
+                <p class="text-slate-500 mt-2">Cómo resumir datos usando la Media, Mediana y Moda.</p>
+            </header>
+
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 mb-6">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <span class="bg-indigo-100 text-primary w-8 h-8 rounded-lg flex items-center justify-center">1</span>
+                    Paso a paso: Definiciones
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800 mb-1">📊 Media (Promedio)</h4>
+                        <p class="text-sm text-slate-600">Suma todos los números y divide entre la cantidad total de datos que hay.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800 mb-1">⚖️ Mediana</h4>
+                        <p class="text-sm text-slate-600">Ordena los números del más pequeño al más grande. El que quede justo en el centro es la mediana.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800 mb-1">🔥 Moda</h4>
+                        <p class="text-sm text-slate-600">Es simplemente el número que más veces se repite en la lista.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo Desglosado -->
+            <div class="bg-rose-50 border border-rose-100 rounded-2xl p-6 mb-6">
+                <h4 class="text-rose-900 font-bold mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                    Ejemplo Desglosado
+                </h4>
+                <div class="space-y-4 text-rose-900 text-sm md:text-base">
+                    <p><strong>Problema:</strong> Calcula las medidas para las edades: <strong>5, 2, 5, 8, 10</strong></p>
+                    <div class="bg-white/60 p-4 rounded-xl border border-rose-200 grid gap-3">
+                        <div>
+                            <span class="font-bold underline">1. Media:</span> Sumamos (5 + 2 + 5 + 8 + 10 = 30). Como son 5 números, dividimos 30 ÷ 5 = <strong>6</strong>.
+                        </div>
+                        <div>
+                            <span class="font-bold underline">2. Mediana:</span> Ordenamos (2, 5, <span class="font-bold text-rose-600 bg-rose-100 px-1 rounded">5</span>, 8, 10). El número que queda exactamente en el medio es <strong>5</strong>.
+                        </div>
+                        <div>
+                            <span class="font-bold underline">3. Moda:</span> El número que más se repite a simple vista es el <strong>5</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Practice -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 border-t-4 border-t-primary">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m18 5-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2Z"/><path d="M8 18h1"/><path d="M18 13v-5"/><path d="M12 18h1"/><path d="M16 18h1"/></svg>
+                    Práctica Didáctica
+                </h3>
+                
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6">
+                    <p class="text-slate-600 mb-2 font-medium">Calcula para las notas de estos 5 estudiantes:</p>
+                    <p class="text-xl font-bold text-indigo-600 tracking-wider">70, 85, 90, 85, 100, 25, 30</p>
+                    <p class="text-xs text-slate-500 mt-2">Pista para la Media: Suma todos (485) y divide entre los 7 datos (Anota 69.28).</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2">Media:</label>
+                        <input type="number" step="0.01" id="est_q1" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="Ej: 69.28">
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2">Mediana:</label>
+                        <input type="number" id="est_q2" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="Ordena y busca el centro">
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 font-bold mb-2">Moda:</label>
+                        <input type="number" id="est_q3" class="border border-slate-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:border-primary" placeholder="El que más se repite">
+                    </div>
+                </div>
+                
+                <button onclick="checkEstadistica()" class="mt-6 bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors w-full sm:w-auto shadow-sm">
+                    Verificar mis respuestas
+                </button>
+                
+                <div id="est_feedback" class="hidden p-4 rounded-xl mt-4 text-sm font-medium"></div>
+            </div>
+        </div>
+
+        <div id="probabilidad" class="tab-content">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Probabilidad</h2>
+                <p class="text-slate-500 mt-2">Aprende a predecir qué tan probable es que algo suceda mediante fracciones.</p>
+            </header>
+
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 mb-6">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <span class="bg-indigo-100 text-primary w-8 h-8 rounded-lg flex items-center justify-center">1</span>
+                    Paso a paso: Fracciones
+                </h3>
+                <div class="space-y-4 text-slate-600">
+                    <p>La probabilidad siempre se escribe como una fracción. Así se acomodan los datos:</p>
+                    
+                    <div class="flex justify-center my-6">
+                        <div class="inline-flex flex-col items-center justify-center bg-slate-50 py-4 px-8 rounded-2xl border border-slate-200">
+                            <div class="text-indigo-600 font-bold mb-2 pb-2 border-b-2 border-slate-400 w-full text-center px-4 text-lg">
+                                Lo que estás buscando <span class="text-sm font-medium text-slate-500 ml-1">(casos que te sirven)</span>
+                            </div>
+                            <div class="text-slate-700 font-bold mt-1 text-center px-4 text-lg">
+                                El total completo <span class="text-sm font-medium text-slate-500 ml-1">(todas las opciones que existen)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo Desglosado -->
+            <div class="bg-sky-50 border border-sky-100 rounded-2xl p-6 mb-6">
+                <h4 class="text-sky-900 font-bold mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                    Ejemplo Desglosado (Sin Reemplazo)
+                </h4>
+                <div class="space-y-3 text-sky-900 text-sm md:text-base">
+                    <p><strong>Problema:</strong> En una bolsa hay 3 canicas rojas y 2 azules (5 en total). Sacas dos seguidas SIN devolver la primera. ¿Cuál es la probabilidad de que ambas sean rojas?</p>
+                    <ol class="list-decimal pl-5 space-y-2 mt-2 bg-white/50 p-4 rounded-xl border border-sky-200">
+                        <li><strong>Primer intento:</strong> Hay 3 rojas de 5 en total = <code class="font-bold">3/5</code></li>
+                        <li><strong>Segundo intento:</strong> Como ya sacaste una roja y NO la devolviste, ahora quedan 2 rojas y en la bolsa solo quedan 4 canicas = <code class="font-bold">2/4</code></li>
+                        <li><strong>Multiplicamos:</strong> Multiplica los de arriba (3×2=6) y los de abajo (5×4=20). Resultado final = <code class="font-bold">6/20</code></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Interactive Practice -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 border-t-4 border-t-primary">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m18 5-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2Z"/><path d="M8 18h1"/><path d="M18 13v-5"/><path d="M12 18h1"/><path d="M16 18h1"/></svg>
+                    Práctica Didáctica
+                </h3>
+                
+                <div class="space-y-6">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <p class="text-slate-700 font-medium mb-3">1) Al lanzar un dado normal de 6 caras, ¿cuál es la probabilidad de obtener un <strong>número mayor que 4</strong>?</p>
+                        <select id="prob_q1" class="border border-slate-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-primary w-full sm:w-auto">
+                            <option value="">Selecciona la fracción...</option>
+                            <option value="1/6">1/6</option>
+                            <option value="2/6">2/6</option>
+                            <option value="4/6">4/6</option>
+                        </select>
+                    </div>
+                    
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <p class="text-slate-700 font-medium mb-3">2) En una caja hay 4 chocolates blancos y 6 oscuros (10 en total). Sacas dos seguidos SIN devolver el primero. ¿Probabilidad de que AMBOS sean blancos?</p>
+                        <p class="text-xs text-slate-500 mb-3">Guíate por el ejemplo desglosado de arriba.</p>
+                        <select id="prob_q2" class="border border-slate-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-primary w-full sm:w-auto">
+                            <option value="">Selecciona la fracción...</option>
+                            <option value="4/10">4/10</option>
+                            <option value="12/90">12/90</option>
+                            <option value="8/100">8/100</option>
+                        </select>
+                    </div>
+                    
+                    <button onclick="checkProbabilidad()" class="mt-2 bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors w-full sm:w-auto shadow-sm">
+                        Verificar mis respuestas
+                    </button>
+                    
+                    <div id="prob_feedback" class="hidden p-4 rounded-xl mt-4 text-sm font-medium"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="videos" class="tab-content">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Videos de Apoyo</h2>
+                <p class="text-slate-500 mt-2">Haz clic en los temas para abrir el video explicativo directamente en YouTube.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Video Link 1: Pitágoras -->
+                <a href="https://www.youtube.com/watch?v=eTEBvBIz8Ok" target="_blank" class="group block p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-red-400 hover:shadow-md transition-all cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 group-hover:text-red-600 transition-colors">Teorema de Pitágoras</h3>
+                            <p class="text-sm text-slate-500 mt-1">Video explicativo súper fácil</p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Video Link 2: Estadística -->
+                <a href="https://www.youtube.com/watch?v=0DA7Wtz1ddg" target="_blank" class="group block p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-red-400 hover:shadow-md transition-all cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 group-hover:text-red-600 transition-colors">Media, Mediana y Moda</h3>
+                            <p class="text-sm text-slate-500 mt-1">Aprende sobre estadística básica</p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Video Link 3: Probabilidad -->
+                <a href="https://www.youtube.com/watch?v=WeeEE8o1aqM" target="_blank" class="group block p-6 bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-red-400 hover:shadow-md transition-all cursor-pointer md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 group-hover:text-red-600 transition-colors">Probabilidad Simple</h3>
+                            <p class="text-sm text-slate-500 mt-1">Entiende las fracciones de probabilidad</p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Tab switching logic (Remains the same)
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn-mobile').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            const activeMobileBtn = document.getElementById('nav-mobile-' + tabId);
+            if(activeMobileBtn) {
+                activeMobileBtn.classList.remove('bg-slate-100', 'text-slate-600');
+                activeMobileBtn.classList.add('bg-primary', 'text-white');
+                activeMobileBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+
+            document.querySelectorAll('.nav-btn-desk').forEach(btn => {
+                btn.classList.remove('bg-indigo-50', 'text-primary');
+                btn.classList.add('text-slate-600');
+            });
+            const activeDeskBtn = document.getElementById('nav-desk-' + tabId);
+            if(activeDeskBtn) {
+                activeDeskBtn.classList.remove('text-slate-600');
+                activeDeskBtn.classList.add('bg-indigo-50', 'text-primary');
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Helper to show messages
+        function showFeedback(elementId, isSuccess, message) {
+            const el = document.getElementById(elementId);
+            el.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'bg-green-50', 'text-green-700');
+            if (isSuccess) {
+                el.classList.add('bg-green-50', 'text-green-700');
+                el.innerHTML = `✓ ${message}`;
+            } else {
+                el.classList.add('bg-red-50', 'text-red-700');
+                el.innerHTML = `✕ ${message}`;
+            }
+        }
+
+        // Validation for Medidas (Updated with new fields)
+        function checkMedidas() {
+            const q1 = document.getElementById('m_q1').value;
+            const q2 = document.getElementById('m_q2').value;
+            const q3 = document.getElementById('m_q3').value;
+            const q4 = document.getElementById('m_q4').value;
+            const q5 = document.getElementById('m_q5').value;
+            
+            // 3 días a seg = 3 * 24 * 60 * 60 = 259200
+            if (q1 === '500' && q2 === '259200' && q3 === '180' && q4 === '2' && q5 === '72') {
+                showFeedback('m_feedback', true, '¡Excelente trabajo! Has aplicado todas las reglas correctamente.');
+            } else {
+                showFeedback('m_feedback', false, 'Revisa tus cálculos. Recuerda usar el ejemplo desglosado como guía paso a paso.');
+            }
+        }
+
+        // Validation for Poligonos (Updated with new fields)
+        function checkPoligonos() {
+            const q1 = document.getElementById('p_q1').value;
+            const q2 = document.getElementById('p_q2').value;
+            const q3 = document.getElementById('p_q3').value;
+            
+            if (q1 === 'hexagono' && q2 === 'triangulo' && q3 === 'cuadrilatero') {
+                showFeedback('p_feedback', true, '¡Perfecto! Identificaste todos los polígonos correctamente.');
+            } else {
+                showFeedback('p_feedback', false, 'Inténtalo de nuevo. Solo debes contar los lados y recordar la tabla.');
+            }
+        }
+
+        // Validation for Pitagoras (Updated with new fields)
+        function checkPitagoras() {
+            const q1 = document.getElementById('pit_q1').value;
+            const q2 = document.getElementById('pit_q2').value;
+            
+            if (q1 === '10' && q2 === '13') {
+                showFeedback('pit_feedback', true, '¡Maravilloso! Aplicaste la fórmula del teorema a la perfección.');
+            } else {
+                showFeedback('pit_feedback', false, 'Hay un error. Recuerda elevar cada cateto al cuadrado, sumarlos y por último sacar la raíz cuadrada.');
+            }
+        }
+
+        // Validation for Estadistica (Updated data)
+        function checkEstadistica() {
+            const q1 = document.getElementById('est_q1').value;
+            const q2 = document.getElementById('est_q2').value;
+            const q3 = document.getElementById('est_q3').value;
+            
+            // Allow 69.28 or 69.29 for rounding leniency
+            if ((q1 === '69.28' || q1 === '69.29') && q2 === '85' && q3 === '85') {
+                showFeedback('est_feedback', true, '¡Genial! Encontraste correctamente las 3 medidas de tendencia central.');
+            } else {
+                showFeedback('est_feedback', false, 'Revisa tus respuestas. Recuerda que para la Mediana debes ORDENAR los números primero de menor a mayor.');
+            }
+        }
+
+        // Validation for Probabilidad (Remains the same mostly)
+        function checkProbabilidad() {
+            const q1 = document.getElementById('prob_q1').value;
+            const q2 = document.getElementById('prob_q2').value;
+            
+            if (q1 === '2/6' && q2 === '12/90') {
+                showFeedback('prob_feedback', true, '¡Brillante! Entendiste perfectamente la probabilidad simple y compuesta (sin reemplazo).');
+            } else {
+                showFeedback('prob_feedback', false, 'Hay un error. Sigue los pasos del "Ejemplo Desglosado" cuidando de restar en ambas partes de la fracción en el segundo paso.');
+            }
+        }
+    </script>
+</body>
+</html>
